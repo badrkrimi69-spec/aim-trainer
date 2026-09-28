@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aim Trainer Pro</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#05070b;
+  color:white;
+  min-height:100vh;
+  padding:18px;
+}
+
+button,select{
+  font:inherit;
+}
+
+header{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+header h1{
+  font-size:38px;
+  letter-spacing:4px;
+}
+
+header p{
+  color:#8792a3;
+  margin-top:6px;
+}
+
+/* HOME */
+
+#home{
+  max-width:950px;
+  margin:40px auto;
+  text-align:center;
+}
+
+.logo{
+  font-size:70px;
+  margin-bottom:10px;
+}
+
+#home h2{
+  font-size:42px;
+  letter-spacing:5px;
+}
+
+#home>p{
+  color:#8792a3;
+  margin:12px 0 30px;
+}
+
+.homeStats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.homeCard{
+  background:#111827;
+  border:1px solid #263244;
+  border-radius:16px;
+  padding:18px;
+}
+
+.homeCard span{
+  display:block;
+  color:#8792a3;
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.homeCard strong{
+  font-size:24px;
+}
+
+#playButton{
+  width:100%;
+  max-width:350px;
+  background:#22c55e;
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:16px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* HISTORY */
+
+.history{
+  margin-top:35px;
+  text-align:left;
+}
+
+.history h3{
+  margin-bottom:12px;
+}
+
+.historyBox{
+  background:#111827;
+  border:1px solid #263244;
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.historyRow{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;
+  gap:8px;
+  padding:13px;
+  border-bottom:1px solid #263244;
+  font-size:13px;
+}
+
+.historyRow:last-child{
+  border-bottom:none;
+}
+
+.historyHead{
+  color:#8792a3;
+  font-weight:bold;
+  font-size:11px;
+}
+
+.noHistory{
+  padding:25px;
+  text-align:center;
+  color:#64748b;
+}
+
+/* GAME */
+
+#game{
+  display:none;
+}
+
+.controls{
+  max-width:950px;
+  margin:auto auto 15px;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+select,
+.controls button{
+  border:none;
+  border-radius:10px;
+  padding:12px 18px;
+  font-weight:bold;
+}
+
+select{
+  background:#111827;
+  color:white;
+  border:1px solid #263244;
+}
+
+#start{
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+}
+
+/* STATS */
+
+.stats{
+  max-width:950px;
+  margin:0 auto 15px;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:8px;
+}
+
+.stat{
+  background:#111827;
+  border:1px solid #263244;
+  border-radius:12px;
+  padding:11px 4px;
+  text-align:center;
+  color:#8792a3;
+  font-size:12px;
+}
+
+.stat span{
+  display:block;
+  color:white;
+  font-size:20px;
+  margin-top:4px;
+  font-weight:bold;
+}
+
+#combo{
+  color:#facc15;
+}
+
+/* ARENA */
+
+#arena{
+  position:relative;
+  width:100%;
+  max-width:950px;
+  height:560px;
+  margin:auto;
+  overflow:hidden;
+  border:1px solid #263244;
+  border-radius:18px;
+  background:
+    linear-gradient(#ffffff08 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff08 1px,transparent 1px),
+    #080d15;
+  background-size:35px 35px;
+  touch-action:none;
+}
+
+#message{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#64748b;
+  text-align:center;
+  line-height:1.8;
+}
+
+#target{
+  position:absolute;
+  border-radius:50%;
+  border:3px solid white;
+  background:
+    radial-gradient(
+      circle,
+      white 0%,
+      white 12%,
+      #ef4444 13%,
+      #ef4444 45%,
+      #991b1b 46%,
+      #991b1b 70%,
+      #450a0a 71%
+    );
+  box-shadow:
+    0 0 15px #ef4444,
+    0 0 35px #ef444455;
+  transform:translate(-50%,-50%);
+  cursor:crosshair;
+  touch-action:manipulation;
+}
+
+#countdown{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:90px;
+  font-weight:bold;
+  color:white;
+  display:none;
+  z-index:20;
+  pointer-events:none;
+}
+
+#comboText{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:24px;
+  font-weight:bold;
+  color:#facc15;
+  opacity:0;
+  transition:.2s;
+  z-index:10;
+  pointer-events:none;
+}
+
+#comboText.show{
+  opacity:1;
+}
+
+/* RESULTS */
+
+#results{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#05070bee;
+  z-index:30;
+}
+
+.resultsBox{
+  width:min(92%,440px);
+  max-height:90%;
+  overflow:auto;
+  background:#111827;
+  border:1px solid #334155;
+  border-radius:20px;
+  padding:28px;
+  text-align:center;
+}
+
+.resultsBox h2{
+  margin-bottom:20px;
+}
+
+.resultRow{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #263244;
+  color:#94a3b8;
+}
+
+.resultRow strong{
+  color:white;
+}
+
+.resultButtons{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.resultButtons button{
+  flex:1;
+  cursor:pointer;
+  border:none;
+  border-radius:10px;
+  padding:12px;
+  font-weight:bold;
+}
+
+#again{
+  background:#22c55e;
+  color:white;
+}
+
+#homeButton{
+  background:#334155;
+  color:white;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  body{
+    padding:10px;
+  }
+
+  #home h2{
+    font-size:30px;
+  }
+
+  .logo{
+    font-size:55px;
+  }
+
+  .homeStats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .stat:nth-child(4),
+  .stat:nth-child(5),
+  .stat:nth-child(6){
+    display:none;
+  }
+
+  #arena{
+    height:65vh;
+    min-height:430px;
+  }
+
+  #countdown{
+    font-size:70px;
+  }
+
+  .historyRow{
+    grid-template-columns:1.2fr 1fr 1fr;
+  }
+
+  .historyRow div:nth-child(4),
+  .historyRow div:nth-child(5){
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+
+<section id="home">
+
+  <div class="logo">🎯</div>
+
+  <h2>AIM TRAINER</h2>
+
+  <p>
+    Improve your precision, speed and reaction.
+  </p>
+
+  <div class="homeStats">
+
+    <div class="homeCard">
+      <span>🏆 BEST SCORE</span>
+      <strong id="homeBest">0</strong>
+    </div>
+
+    <div class="homeCard">
+      <span>⚡ BEST REACTION</span>
+      <strong id="homeReaction">--</strong>
+    </div>
+
+    <div class="homeCard">
+      <span>🔥 BEST COMBO</span>
+      <strong id="homeCombo">0</strong>
+    </div>
+
+    <div class="homeCard">
+      <span>📊 AVG REACTION</span>
+      <strong id="homeAverage">--</strong>
+    </div>
+
+  </div>
+
+  <button id="playButton">
+    🎮 JOUER
+  </button>
+
+  <!-- HISTORY -->
+
+  <div class="history">
+
+    <h3>📊 DERNIÈRES SESSIONS</h3>
+
+    <div class="historyBox">
+
+      <div class="historyRow historyHead">
+        <div>DATE</div>
+        <div>SCORE</div>
+        <div>PRÉCISION</div>
+        <div>REACTION</div>
+        <div>COMBO</div>
+      </div>
+
+      <div id="historyList">
+        <div class="noHistory">
+          Aucune session enregistrée.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- GAME -->
+
+<section id="game">
+
+<header>
+  <h1>AIM TRAINER</h1>
+  <p>PRECISION • SPEED • REACTION</p>
+</header>
+
+
+<div class="controls">
+
+  <select id="mode">
+
+    <option value="precision">
+      🎯 Precision
+    </option>
+
+    <option value="speed">
+      ⚡ Speed
+    </option>
+
+    <option value="reaction">
+      🧠 Reaction
+    </option>
+
+  </select>
+
+
+  <select id="difficulty">
+
+    <option value="easy">
+      🟢 Easy
+    </option>
+
+    <option value="medium" selected>
+      🟡 Medium
+    </option>
+
+    <option value="hard">
+      🔴 Hard
+    </option>
+
+  </select>
+
+
+  <select id="duration">
+
+    <option value="15">
+      15 secondes
+    </option>
+
+    <option value="30" selected>
+      30 secondes
+    </option>
+
+    <option value="60">
+      60 secondes
+    </option>
+
+  </select>
+
+
+  <button id="start">
+    COMMENCER
+  </button>
+
+</div>
+
+
+<!-- LIVE STATS -->
+
+<section class="stats">
+
+  <div class="stat">
+    SCORE
+    <span id="score">0</span>
+  </div>
+
+  <div class="stat">
+    TEMPS
+    <span id="time">30</span>
+  </div>
+
+  <div class="stat">
+    PRECISION
+    <span id="accuracy">0%</span>
+  </div>
+
+  <div class="stat">
+    REACTION
+    <span id="reaction">--</span>
+  </div>
+
+  <div class="stat">
+    BEST
+    <span id="best">0</span>
+  </div>
+
+  <div class="stat">
+    COMBO
+    <span id="combo">0</span>
+  </div>
+
+</section>
+
+
+<!-- ARENA -->
+
+<main id="arena">
+
+  <p id="message">
+    Choisis un mode puis appuie sur COMMENCER
+  </p>
+
+  <div id="countdown"></div>
+
+  <div id="comboText">
+    🔥 COMBO!
+  </div>
+
+  <button id="target" hidden></button>
+
+
+  <!-- RESULTS -->
+
+  <div id="results">
+
+    <div class="resultsBox">
+
+      <h2>🏆 RÉSULTATS</h2>
+
+      <div class="resultRow">
+        <span>Score</span>
+        <strong id="finalScore">0</strong>
+      </div>
+
+      <div class="resultRow">
+        <span>Précision</span>
+        <strong id="finalAccuracy">0%</strong>
+      </div>
+
+      <div class="resultRow">
+        <span>Réaction moyenne</span>
+        <strong id="finalAverage">--</strong>
+      </div>
+
+      <div class="resultRow">
+        <span>Meilleure réaction</span>
+        <strong id="finalBestReaction">--</strong>
+      </div>
+
+      <div class="resultRow">
+        <span>Meilleur Combo</span>
+        <strong id="finalCombo">0</strong>
+      </div>
+
+      <div class="resultRow">
+        <span>Best Score</span>
+        <strong id="finalBest">0</strong>
+      </div>
+
+      <div class="resultButtons">
+
+        <button id="again">
+          REJOUER
+        </button>
+
+        <button id="homeButton">
+          ACCUEIL
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+</section>
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const home=document.getElementById("home");
+const game=document.getElementById("game");
+
+const playButton=document.getElementById("playButton");
+const homeButton=document.getElementById("homeButton");
+const againButton=document.getElementById("again");
+const startButton=document.getElementById("start");
+
+const target=document.getElementById("target");
+const arena=document.getElementById("arena");
+
+const mode=document.getElementById("mode");
+const difficulty=document.getElementById("difficulty");
+const duration=document.getElementById("duration");
+
+const scoreDisplay=document.getElementById("score");
+const timeDisplay=document.getElementById("time");
+const accuracyDisplay=document.getElementById("accuracy");
+const reactionDisplay=document.getElementById("reaction");
+const bestDisplay=document.getElementById("best");
+const comboDisplay=document.getElementById("combo");
+
+const message=document.getElementById("message");
+const countdown=document.getElementById("countdown");
+const comboText=document.getElementById("comboText");
+const results=document.getElementById("results");
+
+const finalScore=document.getElementById("finalScore");
+const finalAccuracy=document.getElementById("finalAccuracy");
+const finalAverage=document.getElementById("finalAverage");
+const finalBestReaction=document.getElementById("finalBestReaction");
+const finalCombo=document.getElementById("finalCombo");
+const finalBest=document.getElementById("finalBest");
+
+const homeBest=document.getElementById("homeBest");
+const homeReaction=document.getElementById("homeReaction");
+const homeCombo=document.getElementById("homeCombo");
+const homeAverage=document.getElementById("homeAverage");
+
+const historyList=document.getElementById("historyList");
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let score=0;
+let clicks=0;
+
+let timeLeft=30;
+
+let gameRunning=false;
+
+let timer=null;
+
+let targetTime=0;
+
+let combo=0;
+let bestCombo=0;
+
+let lastReaction=0;
+
+let reactionTotal=0;
+let reactionCount=0;
+
+let sessionBestReaction=0;
+
+
+/* =========================
+   SAVED DATA
+========================= */
+
+let best=
+  Number(localStorage.getItem("aimBest")) || 0;
+
+let savedBestReaction=
+  Number(localStorage.getItem("aimBestReaction")) || 0;
+
+let savedBestCombo=
+  Number(localStorage.getItem("aimBestCombo")) || 0;
+
+let savedAverageReaction=
+  Number(localStorage.getItem("aimAverageReaction")) || 0;
+
+
+let history=
+  JSON.parse(localStorage.getItem("aimHistory") || "[]");
+
+
+/* =========================
+   INITIAL DISPLAY
+========================= */
+
+bestDisplay.textContent=best;
+
+updateHomeStats();
+renderHistory();
+
+
+/* =========================
+   AUDIO
+========================= */
+
+let audioContext;
+
+function sound(frequency,duration){
+
+  try{
+
+    if(!audioContext){
+
+      audioContext=
+        new(window.AudioContext ||
+        window.webkitAudioContext)();
+
+    }
+
+    const oscillator=
+      audioContext.createOscillator();
+
+    const gain=
+      audioContext.createGain();
+
+    oscillator.frequency.value=frequency;
+
+    oscillator.type="sine";
+
+    gain.gain.setValueAtTime(
+      0.05,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime+duration
+    );
+
+    oscillator.connect(gain);
+
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioContext.currentTime+duration
+    );
+
+  }catch(error){
+
+    console.log("Audio non disponible");
+
+  }
+
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+playButton.addEventListener(
+  "click",
+  function(){
+
+    home.style.display="none";
+
+    game.style.display="block";
+
+  }
+);
+
+
+homeButton.addEventListener(
+  "click",
+  function(){
+
+    game.style.display="none";
+
+    home.style.display="block";
+
+    results.style.display="none";
+
+    updateHomeStats();
+
+    renderHistory();
+
+  }
+);
+
+
+function updateHomeStats(){
+
+  homeBest.textContent=best;
+
+  homeReaction.textContent=
+    savedBestReaction
+      ? savedBestReaction+" ms"
+      : "--";
+
+  homeCombo.textContent=savedBestCombo;
+
+  homeAverage.textContent=
+    savedAverageReaction
+      ? savedAverageReaction+" ms"
+      : "--";
+
+}
+
+
+/* =========================
+   DIFFICULTY
+========================= */
+
+function getDifficulty(){
+
+  if(difficulty.value==="easy"){
+
+    return{
+      minSize:55,
+      maxSize:75,
+      speed:0
+    };
+
+  }
+
+  if(difficulty.value==="hard"){
+
+    return{
+      minSize:25,
+      maxSize:42,
+      speed:80
+    };
+
+  }
+
+  return{
+    minSize:38,
+    maxSize:58,
+    speed:40
+  };
+
+}
+
+
+/* =========================
+   MOVE TARGET
+========================= */
+
+function moveTarget(){
+
+  if(!gameRunning)return;
+
+  const width=arena.clientWidth;
+
+  const height=arena.clientHeight;
+
+  const settings=getDifficulty();
+
+  let size;
+
+
+  if(mode.value==="precision"){
+
+    size=Math.max(
+      settings.minSize,
+      settings.maxSize-
+      Math.floor(score/5)*2
+    );
+
+  }
+
+  else if(mode.value==="speed"){
+
+    size=Math.max(
+      settings.minSize,
+      settings.maxSize-
+      Math.floor(score/8)*2
+    );
+
+  }
+
+  else{
+
+    size=
+      (settings.minSize+
+      settings.maxSize)/2;
+
+  }
+
+
+  target.style.width=size+"px";
+
+  target.style.height=size+"px";
+
+
+  const x=
+    Math.random()*
+    (width-size)+
+    size/2;
+
+  const y=
+    Math.random()*
+    (height-size)+
+    size/2;
+
+
+  target.style.left=x+"px";
+
+  target.style.top=y+"px";
+
+
+  targetTime=performance.now();
+
+
+  if(
+    settings.speed>0 &&
+    gameRunning
+  ){
+
+    const moveTime=
+      Math.max(
+        300,
+        900-settings.speed*3
+      );
+
+    setTimeout(
+      ()=>{
+        if(gameRunning){
+          moveTarget();
+        }
+      },
+      moveTime
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ACCURACY
+========================= */
+
+function updateAccuracy(){
+
+  if(clicks===0){
+
+    accuracyDisplay.textContent="0%";
+
+    return;
+
+  }
+
+  const accuracy=
+    Math.round(
+      (score/clicks)*100
+    );
+
+  accuracyDisplay.textContent=
+    accuracy+"%";
+
+}
+
+
+/* =========================
+   COMBO
+========================= */
+
+function updateCombo(){
+
+  comboDisplay.textContent=combo;
+
+
+  if(combo>=3){
+
+    comboText.textContent=
+      "🔥 COMBO x"+combo;
+
+    comboText.classList.add("show");
+
+    sound(
+      700+combo*20,
+      0.08
+    );
+
+    setTimeout(
+      ()=>{
+        comboText.classList.remove("show");
+      },
+      500
+    );
+
+  }
+
+
+  if(combo>bestCombo){
+
+    bestCombo=combo;
+
+  }
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+function startCountdown(){
+
+  return new Promise(
+    resolve=>{
+
+      target.hidden=true;
+
+      let count=3;
+
+      countdown.style.display="block";
+
+      countdown.textContent=count;
+
+      sound(500,0.1);
+
+
+      const interval=
+        setInterval(
+          ()=>{
+
+            count--;
+
+
+            if(count>0){
+
+              countdown.textContent=count;
+
+              sound(500,0.1);
+
+            }
+
+            else{
+
+              clearInterval(interval);
+
+              countdown.textContent="GO!";
+
+              sound(900,0.15);
+
+
+              setTimeout(
+                ()=>{
+
+                  countdown.style.display="none";
+
+                  resolve();
+
+                },
+                400
+              );
+
+            }
+
+          },
+          800
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   START GAME
+========================= */
+
+async function startGame(){
+
+  results.style.display="none";
+
+
+  score=0;
+
+  clicks=0;
+
+  combo=0;
+
+  bestCombo=0;
+
+  lastReaction=0;
+
+  reactionTotal=0;
+
+  reactionCount=0;
+
+  sessionBestReaction=0;
+
+
+  timeLeft=
+    Number(duration.value);
+
+
+  gameRunning=false;
+
+
+  clearInterval(timer);
+
+
+  scoreDisplay.textContent="0";
+
+  timeDisplay.textContent=timeLeft;
+
+  accuracyDisplay.textContent="0%";
+
+  reactionDisplay.textContent="--";
+
+  comboDisplay.textContent="0";
+
+
+  message.style.display="none";
+
+
+  await startCountdown();
+
+
+  gameRunning=true;
+
+  target.hidden=false;
+
+  moveTarget();
+
+
+  timer=setInterval(
+    ()=>{
+
+      timeLeft--;
+
+      timeDisplay.textContent=timeLeft;
+
+
+      if(timeLeft<=0){
+
+        endGame();
+
+      }
+
+    },
+    1000
+  );
+
+}
+
+
+/* =========================
+   END GAME
+========================= */
+
+function endGame(){
+
+  if(!gameRunning)return;
+
+
+  gameRunning=false;
+
+  clearInterval(timer);
+
+  target.hidden=true;
+
+
+  /* AVERAGE REACTION */
+
+  const averageReaction=
+    reactionCount>0
+      ? Math.round(
+          reactionTotal/reactionCount
+        )
+      : 0;
+
+
+  /* BEST SCORE */
+
+  if(score>best){
+
+    best=score;
+
+    localStorage.setItem(
+      "aimBest",
+      best
+    );
+
+  }
+
+
+  /* BEST REACTION */
+
+  if(
+    sessionBestReaction>0 &&
+    (
+      savedBestReaction===0 ||
+      sessionBestReaction<
+      savedBestReaction
+    )
+  ){
+
+    savedBestReaction=
+      sessionBestReaction;
+
+    localStorage.setItem(
+      "aimBestReaction",
+      savedBestReaction
+    );
+
+  }
+
+
+  /* BEST COMBO */
+
+  if(bestCombo>savedBestCombo){
+
+    savedBestCombo=bestCombo;
+
+    localStorage.setItem(
+      "aimBestCombo",
+      savedBestCombo
+    );
+
+  }
+
+
+  /* AVERAGE */
+
+  if(averageReaction>0){
+
+    savedAverageReaction=
+      savedAverageReaction===0
+        ? averageReaction
+        : Math.round(
+            (
+              savedAverageReaction+
+              averageReaction
+            )/2
+          );
+
+    localStorage.setItem(
+      "aimAverageReaction",
+      savedAverageReaction
+    );
+
+  }
+
+
+  const accuracy=
+    clicks===0
+      ? 0
+      : Math.round(
+          (score/clicks)*100
+        );
+
+
+  /* RESULTS */
+
+  finalScore.textContent=score;
+
+  finalAccuracy.textContent=
+    accuracy+"%";
+
+  finalAverage.textContent=
+    averageReaction
+      ? averageReaction+" ms"
+      : "--";
+
+  finalBestReaction.textContent=
+    sessionBestReaction
+      ? sessionBestReaction+" ms"
+      : "--";
+
+  finalCombo.textContent=bestCombo;
+
+  finalBest.textContent=best;
+
+
+  /* SAVE HISTORY */
+
+  saveSession(
+    score,
+    accuracy,
+    averageReaction,
+    sessionBestReaction,
+    bestCombo
+  );
+
+
+  results.style.display="flex";
+
+  updateHomeStats();
+
+  renderHistory();
+
+  bestDisplay.textContent=best;
+
+  sound(350,0.25);
+
+}
+
+
+/* =========================
+   SAVE SESSION
+========================= */
+
+function saveSession(
+  scoreValue,
+  accuracyValue,
+  averageValue,
+  bestReactionValue,
+  comboValue
+){
+
+  const now=new Date();
+
+
+  const date=
+    now.toLocaleDateString(
+      "fr-FR"
+    );
+
+
+  const session={
+
+    date:date,
+
+    score:scoreValue,
+
+    accuracy:accuracyValue,
+
+    averageReaction:averageValue,
+
+    bestReaction:bestReactionValue,
+
+    combo:comboValue,
+
+    mode:mode.value,
+
+    difficulty:difficulty.value,
+
+    duration:Number(duration.value)
+
+  };
+
+
+  history.unshift(session);
+
+
+  /* ONLY LAST 5 */
+
+  history=history.slice(0,5);
+
+
+  localStorage.setItem(
+    "aimHistory",
+    JSON.stringify(history)
+  );
+
+}
+
+
+/* =========================
+   HISTORY DISPLAY
+========================= */
+
+function renderHistory(){
+
+  if(history.length===0){
+
+    historyList.innerHTML=
+      `
+      <div class="noHistory">
+        Aucune session enregistrée.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  historyList.innerHTML=
+    history.map(
+      session=>`
+
+      <div class="historyRow">
+
+        <div>${session.date}</div>
+
+        <div>${session.score}</div>
+
+        <div>${session.accuracy}%</div>
+
+        <div>
+          ${
+            session.averageReaction
+              ? session.averageReaction+" ms"
+              : "--"
+          }
+        </div>
+
+        <div>${session.combo}</div>
+
+      </div>
+
+      `
+    ).join("");
+
+}
+
+
+/* =========================
+   TARGET HIT
+========================= */
+
+target.addEventListener(
+  "pointerdown",
+  function(event){
+
+    event.preventDefault();
+
+
+    if(!gameRunning)return;
+
+
+    const reaction=
+      Math.round(
+        performance.now()-
+        targetTime
+      );
+
+
+    lastReaction=reaction;
+
+
+    reactionTotal+=reaction;
+
+    reactionCount++;
+
+
+    /* SESSION BEST REACTION */
+
+    if(
+      sessionBestReaction===0 ||
+      reaction<sessionBestReaction
+    ){
+
+      sessionBestReaction=reaction;
+
+    }
+
+
+    reactionDisplay.textContent=
+      reaction+" ms";
+
+
+    score++;
+
+    clicks++;
+
+    combo++;
+
+
+    scoreDisplay.textContent=score;
+
+
+    updateAccuracy();
+
+    updateCombo();
+
+
+    sound(850,0.06);
+
+
+    moveTarget();
+
+  }
+);
+
+
+/* =========================
+   MISS
+========================= */
+
+arena.addEventListener(
+  "pointerdown",
+  function(event){
+
+    if(!gameRunning)return;
+
+
+    if(event.target!==target){
+
+      clicks++;
+
+      combo=0;
+
+      comboDisplay.textContent="0";
+
+      updateAccuracy();
+
+      sound(180,0.08);
+
+    }
+
+  }
+);
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+startButton.addEventListener(
+  "click",
+  startGame
+);
+
+
+againButton.addEventListener(
+  "click",
+  startGame
+);
+
+</script>
+
+</body>
+</html>

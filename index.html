@@ -2,421 +2,237 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 
-<title>Aim Simulator XR</title>
+<title>Auto Target Trainer XR</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#070a10;
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#070a12;
+  color:white;
+  touch-action:none;
 }
 
 body{
-    padding:
-        env(safe-area-inset-top)
-        env(safe-area-inset-right)
-        env(safe-area-inset-bottom)
-        env(safe-area-inset-left);
-}
-
-button{
-    font:inherit;
-    border:0;
-    touch-action:manipulation;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
 .app{
-    height:100dvh;
-    display:flex;
-    flex-direction:column;
-    background:
-        radial-gradient(circle at 50% -10%,#263a68,transparent 40%),
-        #070a10;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:16px;
+  gap:12px;
 }
 
 header{
-    height:70px;
-    padding:10px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  text-align:center;
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
+header h1{
+  margin:5px 0;
+  font-size:26px;
 }
 
-.logo{
-    width:42px;
-    height:42px;
-    border-radius:14px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#765cff,#28d8ff);
-    font-size:21px;
-}
-
-.brand h1{
-    font-size:17px;
-    margin:0;
-}
-
-.sub{
-    font-size:10px;
-    color:#7e899e;
-    margin-top:2px;
-}
-
-.status{
-    padding:8px 10px;
-    border-radius:12px;
-    background:#ffffff0c;
-    color:#9da8bc;
-    font-size:10px;
-}
-
-main{
-    flex:1;
-    overflow:auto;
-    padding:10px 15px 30px;
-}
-
-.wrap{
-    max-width:620px;
-    margin:auto;
-}
-
-.hero{
-    padding:20px 3px 16px;
-}
-
-.hero h2{
-    margin:0;
-    font-size:37px;
-    line-height:1.04;
-    letter-spacing:-1.7px;
-}
-
-.gradient{
-    background:linear-gradient(90deg,#fff,#829cff,#38ddff);
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-.hero p{
-    color:#8993a7;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.card{
-    padding:16px;
-    margin-bottom:12px;
-    border-radius:23px;
-    background:#ffffff09;
-    border:1px solid #ffffff0c;
-}
-
-.title{
-    color:#7e899f;
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    margin-bottom:11px;
-}
-
-.modes{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.mode{
-    min-height:74px;
-    border-radius:17px;
-    background:#111622;
-    color:#909aad;
-    border:1px solid #ffffff0b;
-}
-
-.mode b{
-    display:block;
-    font-size:21px;
-}
-
-.mode span{
-    font-size:10px;
-    font-weight:800;
-}
-
-.mode.active{
-    color:white;
-    background:#25264b;
-    border-color:#7062ff;
-}
-
-.options{
-    display:flex;
-    gap:7px;
-}
-
-.option{
-    flex:1;
-    min-height:45px;
-    border-radius:14px;
-    background:#10141f;
-    color:#9099ad;
-    border:1px solid #ffffff0b;
-    font-size:11px;
-    font-weight:800;
-}
-
-.option.active{
-    color:white;
-    background:#202747;
-    border-color:#6875ff;
-}
-
-.start{
-    width:100%;
-    min-height:59px;
-    border-radius:19px;
-    color:white;
-    font-weight:900;
-    background:linear-gradient(135deg,#765cff,#2bcaf2);
-    box-shadow:0 14px 30px #546cff2b;
-}
-
-/* GAME */
-
-.game{
-    display:none;
-    height:100%;
-    flex-direction:column;
-}
-
-.game.active{
-    display:flex;
+header p{
+  margin:0;
+  color:#8f9bb3;
+  font-size:13px;
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:6px;
-    padding:4px 0 9px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
 }
 
 .stat{
-    text-align:center;
-    background:#ffffff09;
-    border-radius:13px;
-    padding:8px 2px;
+  background:#111725;
+  border:1px solid #202a40;
+  border-radius:14px;
+  padding:9px 4px;
+  text-align:center;
+}
+
+.stat span{
+  display:block;
+  color:#7f8ba3;
+  font-size:11px;
 }
 
 .stat b{
-    display:block;
-    font-size:14px;
+  display:block;
+  margin-top:3px;
+  font-size:19px;
 }
 
-.stat small{
-    color:#778197;
-    font-size:8px;
+.controls{
+  background:#101522;
+  border:1px solid #202a40;
+  border-radius:16px;
+  padding:12px;
+}
+
+label{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#aab4c8;
+  margin-bottom:7px;
+}
+
+input[type="range"]{
+  width:100%;
+  accent-color:#39f5a4;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px;
+  font-size:15px;
+  font-weight:bold;
+  color:white;
+  background:#202a3d;
+}
+
+#start{
+  width:100%;
+  margin-top:10px;
+  background:#39f5a4;
+  color:#06110c;
 }
 
 .arena{
-    position:relative;
-    flex:1;
-    min-height:390px;
-    overflow:hidden;
-    border-radius:25px;
-    border:1px solid #ffffff10;
-
-    background:
-        radial-gradient(circle,#26304a22,transparent 48%),
-        repeating-linear-gradient(
-            0deg,
-            #ffffff05 0 1px,
-            transparent 1px 44px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            #ffffff04 0 1px,
-            transparent 1px 44px
-        );
-
-    touch-action:none;
+  position:relative;
+  flex:1;
+  min-height:250px;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px solid #26324a;
+  background:
+    radial-gradient(circle at center,#172038 0,#0a0e18 65%);
 }
 
 .crosshair{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:44px;
-    height:44px;
-    transform:translate(-50%,-50%);
-    pointer-events:none;
+  position:absolute;
+  width:32px;
+  height:32px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  opacity:.65;
 }
 
 .crosshair:before,
 .crosshair:after{
-    content:"";
-    position:absolute;
-    background:#ffffff99;
+  content:"";
+  position:absolute;
+  background:#7f8ba3;
 }
 
 .crosshair:before{
-    width:2px;
-    height:44px;
-    left:21px;
+  width:32px;
+  height:1px;
+  top:15px;
+  left:0;
 }
 
 .crosshair:after{
-    width:44px;
-    height:2px;
-    top:21px;
+  height:32px;
+  width:1px;
+  left:15px;
+  top:0;
 }
 
 .target{
-    position:absolute;
-    display:none;
-    width:68px;
-    height:68px;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff 0 11%,
-            #ff3d5c 12% 29%,
-            #fff 30% 45%,
-            #ff3d5c 46% 70%,
-            #ff1f46 71%
-        );
-
-    box-shadow:0 0 28px #ff365955;
-    z-index:4;
+  position:absolute;
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:#ff405d;
+  border:4px solid white;
+  box-shadow:
+    0 0 12px #ff405d,
+    0 0 28px rgba(255,64,93,.5);
+  transform:translate(-50%,-50%);
+  display:none;
+  z-index:5;
 }
 
-.target.show{
-    display:block;
-    animation:pop .12s ease-out;
+.target:after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:white;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
 }
 
-@keyframes pop{
-    from{
-        transform:translate(-50%,-50%) scale(.65);
-        opacity:.4;
-    }
-
-    to{
-        transform:translate(-50%,-50%) scale(1);
-        opacity:1;
-    }
+.info{
+  text-align:center;
+  color:#77839a;
+  font-size:12px;
 }
 
-.hint{
-    position:absolute;
-    inset:0;
-    display:grid;
-    place-items:center;
-    color:#566075;
-    font-size:12px;
-    pointer-events:none;
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(4,7,13,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:20;
 }
 
 .result{
-    position:absolute;
-    inset:0;
-    display:none;
-    place-items:center;
-    background:#05070db8;
-    backdrop-filter:blur(8px);
-    z-index:10;
+  width:85%;
+  background:#111827;
+  border:1px solid #293650;
+  border-radius:20px;
+  padding:25px;
 }
 
-.result.active{
-    display:grid;
+.result h2{
+  margin-top:0;
 }
 
-.result-box{
-    width:calc(100% - 40px);
-    max-width:350px;
-    padding:24px;
-    text-align:center;
-    border-radius:24px;
-    background:#121725;
-    border:1px solid #ffffff12;
+.result .big{
+  font-size:40px;
+  font-weight:bold;
+  color:#39f5a4;
 }
 
-.result-box h3{
-    margin:0 0 8px;
-    font-size:24px;
+.result button{
+  width:100%;
+  margin-top:15px;
+  background:#39f5a4;
+  color:#06110c;
 }
 
-.big-score{
-    font-size:44px;
-    font-weight:950;
-    background:linear-gradient(90deg,#fff,#5ddfff);
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-.result-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin:14px 0;
-}
-
-.result-item{
-    background:#090d15;
-    border-radius:13px;
-    padding:10px;
-}
-
-.result-item b{
-    display:block;
-}
-
-.result-item small{
-    color:#707b91;
-    font-size:9px;
-}
-
-.again{
-    width:100%;
-    height:50px;
-    border-radius:16px;
-    background:#242b40;
-    color:white;
-    font-weight:900;
-}
-
-@media(max-width:380px){
-
-    .hero h2{
-        font-size:32px;
-    }
-
-    .arena{
-        min-height:350px;
-    }
-
+@media(max-height:650px){
+  header h1{font-size:21px}
+  .app{padding:10px;gap:8px}
+  .controls{padding:8px}
+  .stat{padding:6px}
 }
 </style>
 </head>
@@ -426,797 +242,281 @@ main{
 <div class="app">
 
 <header>
-
-    <div class="brand">
-
-        <div class="logo">🎯</div>
-
-        <div>
-            <h1>Aim Simulator XR</h1>
-            <div class="sub">
-                Touch Training • iPhone
-            </div>
-        </div>
-
-    </div>
-
-    <div class="status">
-        OFFLINE
-    </div>
-
+  <h1>🎯 Auto Target Trainer XR</h1>
+  <p>Simulation indépendante • iPhone XR</p>
 </header>
 
+<div class="stats">
+  <div class="stat">
+    <span>Score</span>
+    <b id="score">0</b>
+  </div>
 
-<main>
+  <div class="stat">
+    <span>Hits</span>
+    <b id="hits">0</b>
+  </div>
 
-<section class="wrap" id="home">
+  <div class="stat">
+    <span>Temps</span>
+    <b id="time">30</b>
+  </div>
+</div>
 
-    <div class="hero">
+<div class="controls">
 
-        <h2>
-            Train your<br>
-            <span class="gradient">
-                aim & reaction.
-            </span>
-        </h2>
+  <label>
+    <span>Vitesse Auto-Target</span>
+    <b id="speedValue">50%</b>
+  </label>
 
-        <p>
-            Simulateur indépendant pour travailler
-            précision, flick, tracking et réaction
-            au toucher.
-        </p>
+  <input
+    id="speed"
+    type="range"
+    min="10"
+    max="100"
+    value="50"
+  >
 
-    </div>
+  <label style="margin-top:12px">
+    <span>Taille de la cible</span>
+    <b id="sizeValue">62px</b>
+  </label>
 
+  <input
+    id="size"
+    type="range"
+    min="35"
+    max="90"
+    value="62"
+  >
 
-    <div class="card">
-
-        <div class="title">
-            Mode d'entraînement
-        </div>
-
-        <div class="modes">
-
-            <button class="mode active" data-mode="flick">
-                <b>🎯</b>
-                <span>Flick</span>
-            </button>
-
-            <button class="mode" data-mode="tracking">
-                <b>🔄</b>
-                <span>Tracking</span>
-            </button>
-
-            <button class="mode" data-mode="reaction">
-                <b>⚡</b>
-                <span>Reaction</span>
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="card">
-
-        <div class="title">
-            Durée
-        </div>
-
-        <div class="options">
-
-            <button class="option active" data-time="20">
-                20s
-            </button>
-
-            <button class="option" data-time="30">
-                30s
-            </button>
-
-            <button class="option" data-time="60">
-                60s
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <button class="start" id="start">
-        ▶ Commencer
-    </button>
-
-</section>
-
-
-<section class="game wrap" id="game">
-
-    <div class="stats">
-
-        <div class="stat">
-            <b id="score">0</b>
-            <small>SCORE</small>
-        </div>
-
-        <div class="stat">
-            <b id="time">20</b>
-            <small>TEMPS</small>
-        </div>
-
-        <div class="stat">
-            <b id="accuracy">100%</b>
-            <small>ACCURACY</small>
-        </div>
-
-        <div class="stat">
-            <b id="reaction">—</b>
-            <small>REACTION</small>
-        </div>
-
-    </div>
-
-
-    <div class="arena" id="arena">
-
-        <div class="hint" id="hint">
-            Appuie sur la cible
-        </div>
-
-        <div class="crosshair"></div>
-
-        <button
-            class="target"
-            id="target">
-        </button>
-
-
-        <div class="result" id="result">
-
-            <div class="result-box">
-
-                <h3>
-                    Session terminée 🎉
-                </h3>
-
-                <div
-                    class="big-score"
-                    id="finalScore">
-                    0
-                </div>
-
-                <div class="result-grid">
-
-                    <div class="result-item">
-                        <b id="finalAccuracy">
-                            0%
-                        </b>
-                        <small>
-                            ACCURACY
-                        </small>
-                    </div>
-
-                    <div class="result-item">
-                        <b id="finalReaction">
-                            —
-                        </b>
-                        <small>
-                            REACTION
-                        </small>
-                    </div>
-
-                    <div class="result-item">
-                        <b id="finalHits">
-                            0
-                        </b>
-                        <small>
-                            HITS
-                        </small>
-                    </div>
-
-                    <div class="result-item">
-                        <b id="finalBest">
-                            0
-                        </b>
-                        <small>
-                            BEST
-                        </small>
-                    </div>
-
-                </div>
-
-                <button
-                    class="again"
-                    id="again">
-                    🔄 Rejouer
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
+  <button id="start">COMMENCER</button>
 
 </div>
 
+<div class="arena" id="arena">
+
+  <div class="crosshair"></div>
+
+  <div class="target" id="target"></div>
+
+  <div class="overlay" id="overlay">
+    <div class="result">
+      <h2>Session terminée 🎯</h2>
+
+      <div class="big" id="finalScore">0</div>
+
+      <p>Score</p>
+      <p id="finalHits">Hits : 0</p>
+
+      <button id="again">REJOUER</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="info">
+  الهدف كيتحرك بوحدو — لمس الهدف باش تجمع النقاط.
+</div>
+
+</div>
 
 <script>
 
-const home =
-    document.getElementById("home");
+const arena = document.getElementById("arena");
+const target = document.getElementById("target");
 
-const game =
-    document.getElementById("game");
+const scoreEl = document.getElementById("score");
+const hitsEl = document.getElementById("hits");
+const timeEl = document.getElementById("time");
 
-const arena =
-    document.getElementById("arena");
+const speed = document.getElementById("speed");
+const size = document.getElementById("size");
 
-const target =
-    document.getElementById("target");
+const speedValue = document.getElementById("speedValue");
+const sizeValue = document.getElementById("sizeValue");
 
-const result =
-    document.getElementById("result");
+const startBtn = document.getElementById("start");
+const overlay = document.getElementById("overlay");
 
-const startButton =
-    document.getElementById("start");
+const finalScore = document.getElementById("finalScore");
+const finalHits = document.getElementById("finalHits");
 
-const againButton =
-    document.getElementById("again");
-
-
-let mode = "flick";
-
-let duration = 20;
-
-let running = false;
+const again = document.getElementById("again");
 
 let score = 0;
-
 let hits = 0;
+let timeLeft = 30;
 
-let misses = 0;
-
-let startTime = 0;
-
-let targetTime = 0;
-
-let lastReaction = null;
-
+let running = false;
 let timer = null;
-
 let moveTimer = null;
 
-let reactionTimer = null;
+let targetX = 0;
+let targetY = 0;
 
-let best =
-    Number(localStorage.getItem("simBest")) || 0;
+function updateSettings(){
 
+  speedValue.textContent = speed.value + "%";
+  sizeValue.textContent = size.value + "px";
 
-/* MODE */
-
-document
-.querySelectorAll(".mode")
-.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        document
-        .querySelectorAll(".mode")
-        .forEach(x =>
-            x.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        mode =
-            button.dataset.mode;
-
-    });
-
-});
-
-
-/* DURATION */
-
-document
-.querySelectorAll(".option")
-.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        document
-        .querySelectorAll(".option")
-        .forEach(x =>
-            x.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        duration =
-            Number(button.dataset.time);
-
-    });
-
-});
-
-
-/* START */
-
-startButton.addEventListener(
-    "click",
-    startGame
-);
-
-againButton.addEventListener(
-    "click",
-    startGame
-);
-
-
-function startGame(){
-
-    stopGame();
-
-    home.style.display = "none";
-
-    game.classList.add("active");
-
-    result.classList.remove("active");
-
-    score = 0;
-
-    hits = 0;
-
-    misses = 0;
-
-    lastReaction = null;
-
-    running = true;
-
-    startTime = Date.now();
-
-    document.getElementById("score")
-        .textContent = "0";
-
-    document.getElementById("time")
-        .textContent = duration;
-
-    document.getElementById("accuracy")
-        .textContent = "100%";
-
-    document.getElementById("reaction")
-        .textContent = "—";
-
-    document.getElementById("hint")
-        .style.display = "none";
-
-
-    showTarget();
-
-
-    timer =
-        setInterval(() => {
-
-            if(!running) return;
-
-            const elapsed =
-                (Date.now() - startTime)
-                / 1000;
-
-            const remaining =
-                Math.max(
-                    0,
-                    duration - elapsed
-                );
-
-            document.getElementById("time")
-                .textContent =
-                Math.ceil(remaining);
-
-            if(remaining <= 0){
-
-                endGame();
-
-            }
-
-        },100);
-
+  target.style.width = size.value + "px";
+  target.style.height = size.value + "px";
 }
 
+speed.addEventListener("input", updateSettings);
+size.addEventListener("input", updateSettings);
 
-function showTarget(){
-
-    if(!running) return;
-
-    clearTimeout(moveTimer);
-
-    clearTimeout(reactionTimer);
+updateSettings();
 
 
-    const rect =
-        arena.getBoundingClientRect();
+function randomPosition(){
 
+  const rect = arena.getBoundingClientRect();
 
-    let size = 68;
+  const padding = Number(size.value) / 2 + 10;
 
+  targetX =
+    padding +
+    Math.random() *
+    (rect.width - padding * 2);
 
-    if(mode === "flick"){
+  targetY =
+    padding +
+    Math.random() *
+    (rect.height - padding * 2);
 
-        size =
-            Math.max(
-                42,
-                68 -
-                Math.floor(score / 50) * 3
-            );
-
-    }
-
-
-    if(mode === "tracking"){
-
-        size = 58;
-
-    }
-
-
-    if(mode === "reaction"){
-
-        size = 64;
-
-    }
-
-
-    target.style.width =
-        size + "px";
-
-    target.style.height =
-        size + "px";
-
-
-    const padding =
-        size / 2 + 12;
-
-
-    const x =
-        padding +
-        Math.random() *
-        Math.max(
-            1,
-            rect.width -
-            padding * 2
-        );
-
-
-    const y =
-        padding +
-        Math.random() *
-        Math.max(
-            1,
-            rect.height -
-            padding * 2
-        );
-
-
-    target.style.left =
-        x + "px";
-
-    target.style.top =
-        y + "px";
-
-
-    target.classList.remove("show");
-
-    void target.offsetWidth;
-
-    target.classList.add("show");
-
-
-    if(mode === "reaction"){
-
-        target.style.display = "none";
-
-
-        reactionTimer =
-            setTimeout(() => {
-
-                if(!running) return;
-
-                target.style.display =
-                    "block";
-
-                targetTime =
-                    Date.now();
-
-            },500 + Math.random() * 1200);
-
-    }
-
-    else{
-
-        target.style.display =
-            "block";
-
-        targetTime =
-            Date.now();
-
-    }
-
-
-    if(mode === "tracking"){
-
-        moveTarget();
-
-    }
-
+  target.style.left = targetX + "px";
+  target.style.top = targetY + "px";
 }
 
 
 function moveTarget(){
 
-    if(
-        !running ||
-        mode !== "tracking"
-    ) return;
+  if(!running) return;
 
+  randomPosition();
 
-    const rect =
-        arena.getBoundingClientRect();
+  /*
+    Speed élevée = mouvement plus rapide
+  */
 
+  const speedPercent = Number(speed.value);
 
-    const size =
-        parseFloat(
-            target.style.width
-        );
+  const delay =
+    1100 - (speedPercent * 8);
 
+  clearTimeout(moveTimer);
 
-    const padding =
-        size / 2 + 10;
-
-
-    const x =
-        padding +
-        Math.random() *
-        Math.max(
-            1,
-            rect.width -
-            padding * 2
-        );
-
-
-    const y =
-        padding +
-        Math.random() *
-        Math.max(
-            1,
-            rect.height -
-            padding * 2
-        );
-
-
-    target.style.transition =
-        "left .42s ease-out, top .42s ease-out";
-
-
-    target.style.left =
-        x + "px";
-
-    target.style.top =
-        y + "px";
-
-
-    moveTimer =
-        setTimeout(
-            moveTarget,
-            430
-        );
-
+  moveTimer = setTimeout(
+    moveTarget,
+    Math.max(180, delay)
+  );
 }
 
 
-/* HIT */
+function startGame(){
 
-target.addEventListener(
-    "pointerdown",
-    event => {
+  clearInterval(timer);
+  clearTimeout(moveTimer);
 
-        event.preventDefault();
+  score = 0;
+  hits = 0;
+  timeLeft = 30;
 
-        if(!running) return;
+  running = true;
 
-        if(target.style.display === "none")
-            return;
+  scoreEl.textContent = score;
+  hitsEl.textContent = hits;
+  timeEl.textContent = timeLeft;
 
+  overlay.style.display = "none";
+  target.style.display = "block";
 
-        hits++;
+  randomPosition();
+  moveTarget();
 
+  timer = setInterval(() => {
 
-        lastReaction =
-            Date.now() -
-            targetTime;
+    timeLeft--;
 
+    timeEl.textContent = timeLeft;
 
-        score +=
-            10 +
-            Math.min(hits,20);
-
-
-        document.getElementById(
-            "reaction"
-        ).textContent =
-            lastReaction + "ms";
-
-
-        updateStats();
-
-
-        showTarget();
-
+    if(timeLeft <= 0){
+      endGame();
     }
-);
 
-
-/* MISS */
-
-arena.addEventListener(
-    "pointerdown",
-    event => {
-
-        if(!running) return;
-
-        if(event.target === target)
-            return;
-
-
-        misses++;
-
-        updateStats();
-
-    }
-);
-
-
-/* STATS */
-
-function updateStats(){
-
-    document.getElementById(
-        "score"
-    ).textContent =
-        score;
-
-
-    const total =
-        hits + misses;
-
-
-    const accuracy =
-        total === 0
-        ? 100
-        : Math.round(
-            hits / total * 100
-        );
-
-
-    document.getElementById(
-        "accuracy"
-    ).textContent =
-        accuracy + "%";
-
+  },1000);
 }
 
-
-/* END */
 
 function endGame(){
 
-    if(!running) return;
+  running = false;
 
-    running = false;
+  clearInterval(timer);
+  clearTimeout(moveTimer);
 
+  target.style.display = "none";
 
-    clearInterval(timer);
+  finalScore.textContent = score;
+  finalHits.textContent = "Hits : " + hits;
 
-    clearTimeout(moveTimer);
-
-    clearTimeout(reactionTimer);
-
-
-    target.style.display =
-        "none";
-
-
-    const total =
-        hits + misses;
-
-
-    const accuracy =
-        total === 0
-        ? 0
-        : Math.round(
-            hits / total * 100
-        );
-
-
-    if(score > best){
-
-        best = score;
-
-        localStorage.setItem(
-            "simBest",
-            best
-        );
-
-    }
-
-
-    document.getElementById(
-        "finalScore"
-    ).textContent =
-        score;
-
-
-    document.getElementById(
-        "finalAccuracy"
-    ).textContent =
-        accuracy + "%";
-
-
-    document.getElementById(
-        "finalReaction"
-    ).textContent =
-        lastReaction === null
-        ? "—"
-        : lastReaction + "ms";
-
-
-    document.getElementById(
-        "finalHits"
-    ).textContent =
-        hits;
-
-
-    document.getElementById(
-        "finalBest"
-    ).textContent =
-        best;
-
-
-    result.classList.add(
-        "active"
-    );
-
+  overlay.style.display = "flex";
 }
 
 
-/* STOP */
+target.addEventListener("pointerdown", function(e){
 
-function stopGame(){
+  e.preventDefault();
 
-    running = false;
+  if(!running) return;
 
-    clearInterval(timer);
+  hits++;
 
-    clearTimeout(moveTimer);
+  /*
+    كل إصابة = نقاط
+    والسرعة كتزيد قيمة النقاط شوية
+  */
 
-    clearTimeout(reactionTimer);
+  const speedBonus =
+    Math.round(Number(speed.value) / 20);
 
-    target.style.display =
-        "none";
+  score += 10 + speedBonus;
 
-}
+  scoreEl.textContent = score;
+  hitsEl.textContent = hits;
+
+  /*
+    من بعد كل إصابة،
+    الهدف كيتبدل المكان بسرعة.
+  */
+
+  randomPosition();
+});
 
 
-/* MOBILE */
+arena.addEventListener("pointerdown", function(e){
 
-document.addEventListener(
-    "gesturestart",
-    event => {
-        event.preventDefault();
-    }
-);
+  if(!running) return;
+
+  if(e.target === arena){
+
+    /*
+      Miss
+    */
+
+    score = Math.max(0, score - 2);
+
+    scoreEl.textContent = score;
+  }
+});
+
+
+startBtn.addEventListener("click", startGame);
+
+again.addEventListener("click", startGame);
 
 </script>
 
